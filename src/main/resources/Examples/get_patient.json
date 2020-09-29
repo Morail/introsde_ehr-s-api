@@ -1,0 +1,76 @@
+{
+    "data": [
+        {
+            "type": "Prescription",
+            "id": "1",
+            "attributes": {
+                "deleted_on": null,
+                "date": "2020-09-26T18:46:14Z",
+                "diagnostic_question": "Diabetes mellitus",
+                "note": "Test"
+            },
+            "relationships": {
+                "patient": {
+                    "data": {
+                        "type": "Patient",
+                        "id": "1"
+                    }
+                },
+                "drug": {
+                    "data": {
+                        "type": "Drug",
+                        "id": "1"
+                    }
+                }
+            }
+        },
+        {
+            "type": "Prescription",
+            "id": "2",
+            "attributes": {
+                "deleted_on": null,
+                "date": "2020-09-28T21:02:00Z",
+                "diagnostic_question": null,
+                "note": "TEST POST"
+            },
+            "relationships": {
+                "patient": {
+                    "data": {
+                        "type": "Patient",
+                        "id": "6"
+                    }
+                },
+                "drug": {
+                    "data": {
+                        "type": "Drug",
+                        "id": "2"
+                    }
+                }
+            }
+        },
+        {
+            "type": "Prescription",
+            "id": "3",
+            "attributes": {
+                "deleted_on": null,
+                "date": "2020-07-12T08:00:01Z",
+                "diagnostic_question": null,
+                "note": "......"
+            },
+            "relationships": {
+                "patient": {
+                    "data": {
+                        "type": "Patient",
+                        "id": "14"
+                    }
+                },
+                "drug": {
+                    "data": {
+                        "type": "Drug",
+                        "id": "1"
+                    }
+                }
+            }
+        }
+    ]
+}

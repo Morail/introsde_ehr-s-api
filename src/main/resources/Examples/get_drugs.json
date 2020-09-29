@@ -1,0 +1,28 @@
+{
+    "data": [
+        {
+            "type": "Drug",
+            "id": "1",
+            "attributes": {
+                "deleted_on": null,
+                "name": "CLARAVIS",
+                "substance_name": "ISOTRETINOIN",
+                "product_type": "HUMAN PRESCRIPTION DRUG",
+                "brand_name": "CLARAVIS",
+                "dosage_form": "CAPSULE"
+            }
+        },
+        {
+            "type": "Drug",
+            "id": "2",
+            "attributes": {
+                "deleted_on": null,
+                "name": "ZENATANE",
+                "substance_name": "ISOTRETINOIN",
+                "product_type": "HUMAN PRESCRIPTION DRUG",
+                "brand_name": "ZENATANE",
+                "dosage_form": "CAPSULE 10mg"
+            }
+        }
+    ]
+}

@@ -1,0 +1,11 @@
+{
+    "inputMessageMetadata": {
+        "messagePayload": {
+            "connectorName": "#_custom_mule_metadata_type_#",
+            "typeId": "get_patients"
+        }
+    },
+    "outputMessageMetadata": {},
+    "id": "a655dded-224d-4e72-829e-16784435aa58",
+    "version": "5.2.0.0"
+}

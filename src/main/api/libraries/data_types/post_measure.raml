@@ -1,0 +1,33 @@
+#%RAML 1.0 DataType
+
+displayName: PostPatient
+description: Create a new patient record within the EHR of her/his GP
+
+type: object
+properties:
+  type:
+    type: string
+    required: true
+    enum: ['Height', 'Weight', 'BloodPreassure', 'Glicata']
+    example: Glicata
+    description: |
+      Type of measurement
+  unit:
+    type: string
+    required: true
+    enum: ['Kg', 'cm', 'mmGh', 'mg/dL']
+    example: Kg
+    description: |
+       Unit of measurement
+  value:
+    type: string
+    required: true
+    example: "82.5"
+    description: |
+      Value measured
+  note:
+    type: string
+    required: false
+    example: Measure taken by the patient on his own
+    description: |
+      Textual note

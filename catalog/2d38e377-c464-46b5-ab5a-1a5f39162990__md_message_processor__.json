@@ -1,0 +1,11 @@
+{
+    "inputMessageMetadata": {
+        "messagePayload": {
+            "connectorName": "#_custom_mule_metadata_type_#",
+            "typeId": "get_prescriptions"
+        }
+    },
+    "outputMessageMetadata": {},
+    "id": "2d38e377-c464-46b5-ab5a-1a5f39162990",
+    "version": "5.2.0.0"
+}

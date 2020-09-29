@@ -1,0 +1,64 @@
+{
+    "data": [
+        {
+            "type": "Measurement",
+            "id": "1",
+            "attributes": {
+                "deleted_on": null,
+                "type": "Weight",
+                "value": "82.5",
+                "unit": "Kg",
+                "note": null,
+                "date": "2020-09-27T14:57:54Z"
+            },
+            "relationships": {
+                "patient": {
+                    "data": {
+                        "type": "Patient",
+                        "id": "1"
+                    }
+                }
+            }
+        },
+        {
+            "type": "Measurement",
+            "id": "4",
+            "attributes": {
+                "deleted_on": null,
+                "type": "Weight",
+                "value": "67",
+                "unit": "Kg",
+                "note": null,
+                "date": "2020-09-28T19:13:35.147884Z"
+            },
+            "relationships": {
+                "patient": {
+                    "data": {
+                        "type": "Patient",
+                        "id": "1"
+                    }
+                }
+            }
+        },
+        {
+            "type": "Measurement",
+            "id": "5",
+            "attributes": {
+                "deleted_on": null,
+                "type": "Weight",
+                "value": "68.5",
+                "unit": "Kg",
+                "note": "Misura presa dallo stesso paziente",
+                "date": "2020-09-28T19:14:01.958537Z"
+            },
+            "relationships": {
+                "patient": {
+                    "data": {
+                        "type": "Patient",
+                        "id": "1"
+                    }
+                }
+            }
+        }
+    ]
+}

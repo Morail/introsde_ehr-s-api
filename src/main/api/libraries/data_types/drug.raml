@@ -1,0 +1,43 @@
+#%RAML 1.0 DataType
+
+displayName: PostPatient
+description: Create a new patient record within the EHR of her/his GP
+
+type: object
+properties:
+  id:
+    type: number
+    required: true
+    example: 1
+    description: |
+      Unique identifier for the record in the GP's EHR database
+  name:
+    type: string
+    required: true
+    example: CLARAVIS
+    description: |
+      Name
+  substanceName:
+    type: string
+    required: true
+    example: ISOTRETINOIN
+    description: |
+      Substance name
+  brandName:
+    type: string
+    required: false
+    example: CLARAVIS
+    description: |
+      Brand name
+  dosageForm:
+    type: string
+    required: false
+    example: CAPSULE
+    description: |
+      Dosage form
+  productType:
+    type: string
+    required: false
+    example: PRESCRIPTION DRUG
+    description: |
+      Product type

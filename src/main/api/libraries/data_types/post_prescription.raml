@@ -1,0 +1,31 @@
+#%RAML 1.0 DataType
+
+displayName: PostPatient
+description: Create a new patient record within the EHR of her/his GP
+
+type: object
+properties:
+  drugId:
+    type: number
+    required: true
+    example: 1
+    description: |
+      Unique identifier for the prescribed drug in the GP's EHR database
+  date:
+    type: datetime-only
+    required: true
+    example: '2020-09-25T12:45:00'
+    description: |
+       Date of the prescription
+  diagnosticoQuestion:
+    type: string
+    required: false
+    example: "Headache"
+    description: |
+      Diagnostic question
+  note:
+    type: string
+    required: false
+    example: "Sample note"
+    description: |
+      Textual note

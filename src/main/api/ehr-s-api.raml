@@ -1,0 +1,183 @@
+#%RAML 1.0
+version: v1
+title: EHR S-API
+mediaType: application/json
+protocols: [ HTTP, HTTPS ]
+baseUri: http://localhost:9001/api/ehr-s-api/{version}/
+uses:
+  dt: libraries/data_types_library.raml
+  tr: libraries/traits_library.raml
+
+/drugs:
+  is: [tr.common_error_traits]
+  displayName: Drugs
+  description: |
+    Drugs that can be prescribed by the General Practitioner
+  get:
+    description: |
+      Query the GP's EHR software for a drug
+    queryParameters:
+      filter[substanceName]:
+        type: string
+        required: false
+        example: 'ISOTRETINOIN'
+        description: |
+          Substance name
+      filter[brandeName]:
+        type: string
+        required: false
+        example: 'ZENATANE'
+        description: |
+          Brand name
+    responses:
+      200:
+        description: ok
+        body:
+          application/json:
+            type: array
+            items: dt.get_drugs
+            example: !include example/get_drugs.json
+
+/patients:
+  is: [tr.common_error_traits]
+  displayName: Patients
+  description: |
+    Patient assisted by the General Practictioner
+  get:
+    description: |
+        Comunicazione metadati e salvataggio documenti nel registry
+    queryParameters:
+      filter[uuid]:
+        type: string
+        required: false
+        example: 70dfe7db-939b-4252-a852-4917bac006b2
+        description: |
+          Unique identifier for the NHR
+      filter[taxCode]:
+        type: string
+        example: "RSSMRA70A01L378C"
+        description: |
+          Tax code
+        required: false
+      filter[firstName]:
+        type: string
+        required: false
+        example: "Mario"
+        description: |
+          Patient's first name
+      filter[lastName]:
+        type: string
+        description: |
+          Patient's last name
+        required: false
+        example: "Rossi"
+    responses:
+      200:
+        description: ok
+        body:
+          application/json:
+            type: array
+            items: dt.get_patient
+            example: !include example/get_patients.json
+  post: #create
+    description: |
+      Create a new patient associated with the GP
+    body:
+      application/json:
+        type: dt.post_patient
+        example: !include example/post_patient.json
+    responses:
+      201:
+        description: ok
+  /{patientId}:
+    uriParameters:
+      patientId:
+        type: number
+        required: true
+        example: 12342
+        description: |
+          unique identifier of the patient in the EHR's registry
+    get:
+      description: |
+        Get patient
+      responses:
+        200:
+          description: ok
+          body:
+            application/json:
+              type: dt.get_patient
+              example: !include example/get_patient.json
+    patch: # update
+      description: |
+        Create a new patient associated with the GP
+      body:
+        application/json:
+          type: dt.post_patient
+          example: !include example/post_patient.json
+      responses:
+        201:
+          description: ok
+    delete:
+      description: |
+        Delete a patient from the GP's registry
+      responses:
+        204:
+          description: Patient deleted successfully
+
+    /prescriptions:
+      description: |
+        EHR contains a registry of prescriptions for each patient
+      get:
+        description: |
+          Retrieve prescriptions for the given user from the EHR
+        responses:
+          200:
+            description: ok
+            body:
+              application/json:
+                type: array
+                items: dt.get_prescription
+                example: !include example/get_prescriptions.json
+      post:
+        description: |
+          Post a new prescription to the EHR
+        body:
+          application/json:
+            type: dt.post_prescription
+            example: !include example/post_prescription.json
+        responses:
+          201:
+            description: ok
+
+    /measurements:
+      description: |
+        EHR contains measurements registered for each patient, such as weight,
+        height, blood pressure, etc..
+      get:
+        description: |
+          Retrieve the measurements related to the given patient
+        queryParameters:
+          filter[type]:
+            type: string
+            required: false
+            example: Weight
+            description: |
+              Measurement type
+        responses:
+          200:
+            description: ok
+            body:
+              application/json:
+                type: array
+                items: dt.get_measure
+                example: !include example/get_measurements.json
+      post:
+        description: |
+          Post a new measurement to the EHR
+        body:
+          application/json:
+            type: dt.post_measure
+            example: !include example/post_measure.json
+        responses:
+          201:
+            description: ok

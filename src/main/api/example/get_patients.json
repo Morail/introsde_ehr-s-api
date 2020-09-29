@@ -1,0 +1,32 @@
+[
+    {
+        "id": 1,
+        "nhrCode": "a8098c1a-f86e-11da-bd1a-00112444be1e",
+        "lastName": "Rossi",
+        "firstName": "Mario",
+        "taxCode": "RSSMRA70A01L378C",
+        "birthDate": "1970-01-01",
+        "entryDate": "2020-09-28",
+        "expiryDate": null
+    },
+    {
+        "id": 2,
+        "nhrCode": "a8012c1a-f86e-11da-bd1a-0da12444bex4",
+        "lastName": "Verdi",
+        "firstName": "Giuseppe",
+        "taxCode": "VRDGSP13P10H612Q",
+        "birthDate": "1813-10-13",
+        "entryDate": "2020-09-28",
+        "expiryDate": null
+    },
+    {
+        "id": 6,
+        "nhrCode": "39cb0453-6979-475e-b18d-e1233eb4aa504",
+        "lastName": "Viola",
+        "firstName": "Miriam",
+        "taxCode": "VLIMRM00E49L378Q",
+        "birthDate": "2000-05-09",
+        "entryDate": "2017-01-28",
+        "expiryDate": null
+    }
+]

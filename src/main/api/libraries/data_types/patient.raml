@@ -1,0 +1,61 @@
+#%RAML 1.0 DataType
+
+displayName: PostPatient
+description: Create a new patient record within the EHR of her/his GP
+
+type: object
+properties:
+  id:
+    type: number
+    required: true
+    example: 1
+    description: |
+      Unique identifier for the record in the GP's EHR database
+  nhrCode:
+    type: string
+    required: true
+    example: u9sd12-1242-sdasda2-1332-sdsda
+    description: |
+      Unique identifier for the patient in the NHR registry
+  taxCode:
+    type: string
+    required: true
+    example: RSSMRA70A01L378C
+    description: |
+      Tax code
+  firstName:
+    type: string
+    required: true
+    example: Mario
+    description: |
+      Patient's first name
+  lastName:
+    type: string
+    required: true
+    example: Rossi
+    description: |
+      Patient's last name
+  birthDate:
+    type: date-only
+    required: true
+    example: 1970-01-01
+    description: |
+      Birth date of the patient
+  entryDate:
+    type: date-only
+    required: true
+    example: 2020-01-01
+    description: |
+      Start date for the registration with the NHR
+  expiryDate:
+    type: date-only | nil
+    required: true
+    example: 2030-01-01
+    description: |
+      Expiry date for the registration with the NHR
+  email:
+    type: string
+    required: false
+    example: example@foo.com
+    description: |
+      Email address

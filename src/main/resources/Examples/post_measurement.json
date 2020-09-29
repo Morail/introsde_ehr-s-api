@@ -1,0 +1,7 @@
+{
+    "patient": 1,
+    "type": "Height",
+    "value": "175",
+    "unit": "cm",
+    "note": "Misura presa dallo stesso paziente"
+}
