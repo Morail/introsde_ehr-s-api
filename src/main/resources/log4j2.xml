@@ -22,7 +22,7 @@
 	<Loggers>
 
 		<AsyncLogger name="org.mule.module.http.internal.HttpMessageLogger"
-			level="DEBUG" />
+			level=WARN />
 		<AsyncLogger name="com.mulesoft.weave.mule.utils" level="WARN" />
 
 		<AsyncLogger name="org.mule.api.processor.LoggerMessageProcessor"
