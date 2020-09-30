@@ -37,6 +37,21 @@ uses:
             type: array
             items: dt.get_drugs
             example: !include example/get_drugs.json
+  post:
+    description: |
+      Store information about a new drug in the GP's EHR registry
+    body:
+      application/json:
+        type: dt.post_drug
+        example: !include example/post_drug.json
+    responses:
+      201:
+        description: ok
+        body:
+          type: number
+          example: 124
+          description: |
+            ID returned
 
 /patients:
   is: [tr.common_error_traits]
@@ -45,7 +60,7 @@ uses:
     Patient assisted by the General Practictioner
   get:
     description: |
-        Comunicazione metadati e salvataggio documenti nel registry
+        Retrieve patient personal data from EHR
     queryParameters:
       filter[uuid]:
         type: string
@@ -53,24 +68,6 @@ uses:
         example: 70dfe7db-939b-4252-a852-4917bac006b2
         description: |
           Unique identifier for the NHR
-      filter[taxCode]:
-        type: string
-        example: "RSSMRA70A01L378C"
-        description: |
-          Tax code
-        required: false
-      filter[firstName]:
-        type: string
-        required: false
-        example: "Mario"
-        description: |
-          Patient's first name
-      filter[lastName]:
-        type: string
-        description: |
-          Patient's last name
-        required: false
-        example: "Rossi"
     responses:
       200:
         description: ok
@@ -89,6 +86,11 @@ uses:
     responses:
       201:
         description: ok
+        body:
+          type: number
+          example: 124
+          description: |
+            ID returned
   /{patientId}:
     uriParameters:
       patientId:
@@ -148,6 +150,11 @@ uses:
         responses:
           201:
             description: ok
+            body:
+              type: number
+              example: 124
+              description: |
+                ID returned
 
     /measurements:
       description: |
@@ -181,3 +188,8 @@ uses:
         responses:
           201:
             description: ok
+            body:
+              type: number
+              example: 124
+              description: |
+                ID returned

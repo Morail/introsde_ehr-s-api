@@ -1,15 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<mule xmlns="http://www.mulesoft.org/schema/mule/core"
-	xmlns:api-platform-gw="http://www.mulesoft.org/schema/mule/api-platform-gw"
-	xmlns:apikit="http://www.mulesoft.org/schema/mule/apikit" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:dw="http://www.mulesoft.org/schema/mule/ee/dw" xmlns:http="http://www.mulesoft.org/schema/mule/http"
-	xmlns:json="http://www.mulesoft.org/schema/mule/json" xmlns:metadata="http://www.mulesoft.org/schema/mule/metadata"
-	xmlns:scripting="http://www.mulesoft.org/schema/mule/scripting"
-	xmlns:spring="http://www.springframework.org/schema/beans"
-	xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking"
-	xmlns:validation="http://www.mulesoft.org/schema/mule/validation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:api-platform-gw="http://www.mulesoft.org/schema/mule/api-platform-gw" xmlns:apikit="http://www.mulesoft.org/schema/mule/apikit" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:dw="http://www.mulesoft.org/schema/mule/ee/dw" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:json="http://www.mulesoft.org/schema/mule/json" xmlns:metadata="http://www.mulesoft.org/schema/mule/metadata" xmlns:scripting="http://www.mulesoft.org/schema/mule/scripting" xmlns:spring="http://www.springframework.org/schema/beans" xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns:validation="http://www.mulesoft.org/schema/mule/validation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
 http://www.mulesoft.org/schema/mule/apikit http://www.mulesoft.org/schema/mule/apikit/current/mule-apikit.xsd
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
@@ -19,26 +9,19 @@ http://www.mulesoft.org/schema/mule/api-platform-gw http://www.mulesoft.org/sche
 http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd
 http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee/dw/current/dw.xsd
 http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd">
-	<!-- HTTP Listener Connector -->
-	<http:listener-config name="api-httpListenerConfig"
-		host="${api.http.listener.host}" port="${api.http.listener.port}"
-		doc:name="HTTP Listener Configuration" />
-	<!-- APIkit Router Configuration -->
-	<apikit:config name="api-config" raml="ehr-s-api.raml"
-		consoleEnabled="false" doc:name="Router" keepRamlBaseUri="false" />
-	<http:request-config name="HTTP_EHR" host="localhost"
-		port="8000" basePath="api/ehr-s-api/v1" doc:name="HTTP Request Configuration" />
-	<!-- API Autodiscovery Configuration -->
-	<!-- <api-platform-gw:api apiName="${api.autodiscovery.name}" version="${api.autodiscovery.version}" 
+    <!-- HTTP Listener Connector -->
+    <http:listener-config name="api-httpListenerConfig" host="${api.http.listener.host}" port="${api.http.listener.port}" doc:name="HTTP Listener Configuration" />
+    <!-- APIkit Router Configuration -->
+    <apikit:config name="api-config" raml="ehr-s-api.raml" consoleEnabled="false" doc:name="Router" keepRamlBaseUri="false" />
+    <http:request-config name="HTTP_EHR" host="localhost" port="8000" basePath="api/ehr-s-api/v1" doc:name="HTTP Request Configuration" />
+    <!-- API Autodiscovery Configuration -->
+    <!-- <api-platform-gw:api apiName="${api.autodiscovery.name}" version="${api.autodiscovery.version}" 
 		flowRef="api-main" create="false" apikitRef="api-config" doc:name="API Autodiscovery" 
 		/> -->
-	<flow name="api-main">
-		<http:listener config-ref="api-httpListenerConfig" path="${api.http.listener.path}"
-			doc:name="HTTP" />
-		<flow-ref name="global.get-tracking-id" doc:name="get-tracking-id" />
-		<logger
-			message="#[[sessionVars.trackingId]] - #[string:[#[context:serviceName]]] - { &quot;trackingId&quot;: &quot;#[sessionVars.trackingId]&quot;, &quot;request&quot;: &quot;#[message.inboundProperties['http.method']] #[message.inboundProperties['http.request.uri']]&quot; }"
-			level="INFO" doc:name="Audit request" category="AUDIT" />
+    <flow name="api-main">
+        <http:listener config-ref="api-httpListenerConfig" path="${api.http.listener.path}" doc:name="HTTP" />
+        <flow-ref name="global.get-tracking-id" doc:name="get-tracking-id" />
+        <logger message="#[[sessionVars.trackingId]] - #[string:[#[context:serviceName]]] - { &quot;trackingId&quot;: &quot;#[sessionVars.trackingId]&quot;, &quot;request&quot;: &quot;#[message.inboundProperties['http.method']] #[message.inboundProperties['http.request.uri']]&quot; }" level="INFO" doc:name="Audit request" category="AUDIT" />
         <response>
             <choice doc:name="Choice">
                 <when expression="#[flowVars.errorRaised != null &amp;&amp; flowVars.errorRaised == true]">
@@ -49,43 +32,30 @@ http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/jso
                 </otherwise>
             </choice>
         </response>
-		<apikit:router config-ref="api-config" doc:name="APIkit Router" />
-		<exception-strategy ref="global-exception-strategy"
-			doc:name="Reference Exception Strategy" />
-	</flow>
-	<flow name="health-check">
-		<http:listener config-ref="api-httpListenerConfig" path="/health-check"
-			doc:name="HTTP" />
-		<set-property propertyName="http.status" value="200"
-			doc:name="Set 200 Status Code" />
-		<set-variable variableName="response.title" value="Heartbeat"
-			doc:name="Set Response Title" />
-		<set-payload value="OK" doc:name="Set Status Code"
-			mimeType="application/java" />
-		<flow-ref name="transform-to-jsonapi-data_flow" doc:name="transform-to-jsonapi-data_flow" />
-	</flow>
-	<flow name="delete:/patients/{patientId}:api-config">
-		<logger
-			message="[#[sessionVars.trackingId]] - [#[string:#[context:serviceName]]] - START delete patient id [#[flowVars.patientId]]"
-			level="INFO" doc:name="Start" />
-		<http:request config-ref="HTTP_EHR" path="/patients/{patientId}"
-			method="DELETE" doc:name="DELETE patient">
-			<http:request-builder>
-				<http:uri-param paramName="patientId" value="#[flowVars.patientId]" />
-			</http:request-builder>
-			<http:success-status-code-validator
-				values="204" />
-		</http:request>
-		<logger
-			message="[#[sessionVars.trackingId]] - [#[string:#[context:serviceName]]] - END delete patient id [#[flowVars.patientId]]"
-			level="INFO" doc:name="End" />
-	</flow>
-	<flow name="patch:/patients/{patientId}:application/json:api-config">
-		<logger
-			message="[#[sessionVars.trackingId]] - [#[string:#[context:serviceName]]] - START update patient id [#[flowVars.patientId]]"
-			level="INFO" doc:name="Start" />
-		<dw:transform-message doc:name="Set payload">
-			<dw:set-payload><![CDATA[%dw 1.0
+        <apikit:router config-ref="api-config" doc:name="APIkit Router" />
+        <exception-strategy ref="global-exception-strategy" doc:name="Reference Exception Strategy" />
+    </flow>
+    <flow name="health-check">
+        <http:listener config-ref="api-httpListenerConfig" path="/health-check" doc:name="HTTP" />
+        <set-property propertyName="http.status" value="200" doc:name="Set 200 Status Code" />
+        <set-variable variableName="response.title" value="Heartbeat" doc:name="Set Response Title" />
+        <set-payload value="OK" doc:name="Set Status Code" mimeType="application/java" />
+        <flow-ref name="transform-to-jsonapi-data_flow" doc:name="transform-to-jsonapi-data_flow" />
+    </flow>
+    <flow name="delete:/patients/{patientId}:api-config">
+        <logger message="[#[sessionVars.trackingId]] - [#[string:#[context:serviceName]]] - START delete patient id [#[flowVars.patientId]]" level="INFO" doc:name="Start" />
+        <http:request config-ref="HTTP_EHR" path="/patients/{patientId}" method="DELETE" doc:name="DELETE patient">
+            <http:request-builder>
+                <http:uri-param paramName="patientId" value="#[flowVars.patientId]" />
+            </http:request-builder>
+            <http:success-status-code-validator values="204" />
+        </http:request>
+        <logger message="[#[sessionVars.trackingId]] - [#[string:#[context:serviceName]]] - END delete patient id [#[flowVars.patientId]]" level="INFO" doc:name="End" />
+    </flow>
+    <flow name="patch:/patients/{patientId}:application/json:api-config">
+        <logger message="[#[sessionVars.trackingId]] - [#[string:#[context:serviceName]]] - START update patient id [#[flowVars.patientId]]" level="INFO" doc:name="Start" />
+        <dw:transform-message doc:name="Set payload">
+            <dw:set-payload><![CDATA[%dw 1.0
 %output application/json
 ---
 {
@@ -97,32 +67,23 @@ http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/jso
 	uuid: payload.nhrCode,
 	entry_date: payload.entryDate
 }]]></dw:set-payload>
-		</dw:transform-message>
-		<object-to-string-transformer doc:name="Object to String" />
-		<http:request config-ref="HTTP_EHR" path="/patients/{patientId}"
-			method="PATCH" doc:name="PATCH patient">
-			<http:request-builder>
-				<http:uri-param paramName="patientId" value="#[flowVars.patientId]" />
-				<http:header headerName="Content-type" value="application/json" />
-			</http:request-builder>
-			<http:success-status-code-validator
-				values="200,201" />
-		</http:request>
-		<logger
-			message="[#[sessionVars.trackingId]] - [#[string:#[context:serviceName]]] - END update patient id [#[flowVars.patientId]]"
-			level="INFO" doc:name="End" />
-	</flow>
-	<flow name="get:/drugs:api-config">
-		<logger
-			message="[#[sessionVars.trackingId]] - [#[string:#[context:serviceName]]] - START search drugs"
-			level="INFO" doc:name="Start" />
-		<http:request config-ref="HTTP_EHR" path="/drugs" method="GET"
-			doc:name="GET drugs" />
-		<dw:transform-message doc:name="Response"
-			metadata:id="1ab65776-d493-4e51-a634-4670cddb1431">
-			<dw:input-payload doc:sample="Examples/get_drugs.json"
-				mimeType="application/json" />
-			<dw:set-payload><![CDATA[%dw 1.0
+        </dw:transform-message>
+        <object-to-string-transformer doc:name="Object to String" />
+        <http:request config-ref="HTTP_EHR" path="/patients/{patientId}" method="PATCH" doc:name="PATCH patient">
+            <http:request-builder>
+                <http:uri-param paramName="patientId" value="#[flowVars.patientId]" />
+                <http:header headerName="Content-type" value="application/json" />
+            </http:request-builder>
+            <http:success-status-code-validator values="200,201" />
+        </http:request>
+        <logger message="[#[sessionVars.trackingId]] - [#[string:#[context:serviceName]]] - END update patient id [#[flowVars.patientId]]" level="INFO" doc:name="End" />
+    </flow>
+    <flow name="get:/drugs:api-config">
+        <logger message="[#[sessionVars.trackingId]] - [#[string:#[context:serviceName]]] - START search drugs" level="INFO" doc:name="Start" />
+        <http:request config-ref="HTTP_EHR" path="/drugs" method="GET" doc:name="GET drugs" />
+        <dw:transform-message doc:name="Response" metadata:id="1ab65776-d493-4e51-a634-4670cddb1431">
+            <dw:input-payload doc:sample="Examples/get_drugs.json" mimeType="application/json" />
+            <dw:set-payload><![CDATA[%dw 1.0
 %output application/json
 ---
 payload.data map ((datum , indexOfDatum) -> {
@@ -133,21 +94,15 @@ payload.data map ((datum , indexOfDatum) -> {
 	productType: datum.attributes.product_type,
 	substanceName: datum.attributes.substance_name
 })]]></dw:set-payload>
-		</dw:transform-message>
-		<logger
-			message="[#[sessionVars.trackingId]] - [#[string:#[context:serviceName]]] - END search drugs"
-			level="INFO" doc:name="End" />
-	</flow>
-	<flow name="get:/patients:api-config">
-		<logger
-			message="[#[sessionVars.trackingId]] - [#[string:#[context:serviceName]]] - START search patients"
-			level="INFO" doc:name="Start" />
-		<http:request config-ref="HTTP_EHR" path="/patients"
-			method="GET" doc:name="GET patients" />
-		<dw:transform-message doc:name="Response"
-			metadata:id="a655dded-224d-4e72-829e-16784435aa58">
-			<dw:input-payload mimeType="application/json" />
-			<dw:set-payload><![CDATA[%dw 1.0
+        </dw:transform-message>
+        <logger message="[#[sessionVars.trackingId]] - [#[string:#[context:serviceName]]] - END search drugs" level="INFO" doc:name="End" />
+    </flow>
+    <flow name="get:/patients:api-config">
+        <logger message="[#[sessionVars.trackingId]] - [#[string:#[context:serviceName]]] - START search patients" level="INFO" doc:name="Start" />
+        <http:request config-ref="HTTP_EHR" path="/patients" method="GET" doc:name="GET patients" />
+        <dw:transform-message doc:name="Response" metadata:id="a655dded-224d-4e72-829e-16784435aa58">
+            <dw:input-payload mimeType="application/json" />
+            <dw:set-payload><![CDATA[%dw 1.0
 %output application/json
 ---
 payload.data map ((datum , indexOfDatum) -> {
@@ -161,43 +116,28 @@ payload.data map ((datum , indexOfDatum) -> {
 	nhrCode: datum.attributes.uuid,
 	taxCode: datum.attributes.tax_code
 })]]></dw:set-payload>
-		</dw:transform-message>
-		<logger
-			message="[#[sessionVars.trackingId]] - [#[string:#[context:serviceName]]] - END search patients"
-			level="INFO" doc:name="End" />
-	</flow>
-	<flow name="get:/patients/{patientId}:api-config">
-		<logger
-			message="[#[sessionVars.trackingId]] - [#[string:#[context:serviceName]]] - START search patient id [#[flowVars.patientId]]"
-			level="INFO" doc:name="Start" />
-		<http:request config-ref="HTTP_EHR" path="/patients/#[flowVars.patientId]"
-			method="GET" doc:name="GET patient">
-			<http:success-status-code-validator
-				values="200,400..599" />
-		</http:request>
-		<choice doc:name="Choice">
-			<when expression="#[message.inboundProperties.'http.status' == 404]">
-				<logger
-					message="[#[sessionVars.trackingId]] - [#[string:#[context:serviceName]]] - Not found"
-					level="ERROR" doc:name="Not found" />
-				<flow-ref name="global-resource-not-found-response-sub-flow"
-					doc:name="global-resource-not-found-response-sub-flow" />
-			</when>
-			<when expression="#[message.inboundProperties.'http.status' != 200]">
-				<logger
-					message="[#[sessionVars.trackingId]] - [#[string:#[context:serviceName]]] - Errore"
-					level="ERROR" doc:name="Error" />
-				<flow-ref name="global-bad-request-response-sub-flow"
-					doc:name="global-bad-request-response-sub-flow" />
-			</when>
-			<otherwise>
-				<logger
-					message="[#[sessionVars.trackingId]] - [#[string:#[context:serviceName]]] - OK"
-					level="TRACE" doc:name="Logger" />
-				<dw:transform-message doc:name="Response"
-					metadata:id="c07c46dd-51c9-4eff-94b2-df53b146e4e5">
-					<dw:input-payload mimeType="application/json" />
-					<dw:set-payload><![CDATA[%dw 1.0
+        </dw:transform-message>
+        <logger message="[#[sessionVars.trackingId]] - [#[string:#[context:serviceName]]] - END search patients" level="INFO" doc:name="End" />
+    </flow>
+    <flow name="get:/patients/{patientId}:api-config">
+        <logger message="[#[sessionVars.trackingId]] - [#[string:#[context:serviceName]]] - START search patient id [#[flowVars.patientId]]" level="INFO" doc:name="Start" />
+        <http:request config-ref="HTTP_EHR" path="/patients/#[flowVars.patientId]" method="GET" doc:name="GET patient">
+            <http:success-status-code-validator values="200,400..599" />
+        </http:request>
+        <choice doc:name="Choice">
+            <when expression="#[message.inboundProperties.'http.status' == 404]">
+                <logger message="[#[sessionVars.trackingId]] - [#[string:#[context:serviceName]]] - Not found" level="ERROR" doc:name="Not found" />
+                <flow-ref name="global-resource-not-found-response-sub-flow" doc:name="global-resource-not-found-response-sub-flow" />
+            </when>
+            <when expression="#[message.inboundProperties.'http.status' != 200]">
+                <logger message="[#[sessionVars.trackingId]] - [#[string:#[context:serviceName]]] - Errore" level="ERROR" doc:name="Error" />
+                <flow-ref name="global-bad-request-response-sub-flow" doc:name="global-bad-request-response-sub-flow" />
+            </when>
+            <otherwise>
+                <logger message="[#[sessionVars.trackingId]] - [#[string:#[context:serviceName]]] - OK" level="TRACE" doc:name="Logger" />
+                <dw:transform-message doc:name="Response" metadata:id="c07c46dd-51c9-4eff-94b2-df53b146e4e5">
+                    <dw:input-payload mimeType="application/json" />
+                    <dw:set-payload><![CDATA[%dw 1.0
 %output application/json
 ---
 {
@@ -211,20 +151,15 @@ payload.data map ((datum , indexOfDatum) -> {
 	nhrCode: payload.data.attributes.uuid,
 	taxCode: payload.data.attributes.tax_code
 }]]></dw:set-payload>
-				</dw:transform-message>
-			</otherwise>
-		</choice>
-		<logger
-			message="[#[sessionVars.trackingId]] - [#[string:#[context:serviceName]]] - END search patients"
-			level="INFO" doc:name="End" />
-	</flow>
-	<flow
-		name="post:/patients/{patientId}/measurements:application/json:api-config">
-		<logger
-			message="[#[sessionVars.trackingId]] - [#[string:#[context:serviceName]]] - START create new measurment for patient id [#[flowVars.patientId]]"
-			level="INFO" doc:name="Start" />
-		<dw:transform-message doc:name="Set payload">
-			<dw:set-payload><![CDATA[%dw 1.0
+                </dw:transform-message>
+            </otherwise>
+        </choice>
+        <logger message="[#[sessionVars.trackingId]] - [#[string:#[context:serviceName]]] - END search patients" level="INFO" doc:name="End" />
+    </flow>
+    <flow name="post:/patients/{patientId}/measurements:application/json:api-config">
+        <logger message="[#[sessionVars.trackingId]] - [#[string:#[context:serviceName]]] - START create new measurment for patient id [#[flowVars.patientId]]" level="INFO" doc:name="Start" />
+        <dw:transform-message doc:name="Set payload">
+            <dw:set-payload><![CDATA[%dw 1.0
 %output application/json
 ---
 {
@@ -234,27 +169,34 @@ payload.data map ((datum , indexOfDatum) -> {
     "unit": payload.unit,
     "note": payload.note
 }]]></dw:set-payload>
-		</dw:transform-message>
-		<object-to-string-transformer doc:name="Object to String" />
-		<http:request config-ref="HTTP_EHR" path="/measurements"
-			method="POST" doc:name="POST measurement">
-			<http:request-builder>
-				<http:header headerName="Content-type" value="application/json" />
-			</http:request-builder>
-			<http:success-status-code-validator
-				values="201" />
-		</http:request>
-		<logger
-			message="[#[sessionVars.trackingId]] - [#[string:#[context:serviceName]]] - END create new measurment for patient id [#[flowVars.patientId]]"
-			level="INFO" doc:name="End" />
-	</flow>
-	<flow
-		name="post:/patients/{patientId}/prescriptions:application/json:api-config">
-		<logger
-			message="[#[sessionVars.trackingId]] - [#[string:#[context:serviceName]]] - START create new prescription for patient id [#[flowVars.patientId]]"
-			level="INFO" doc:name="Start" />
-		<dw:transform-message doc:name="Set payload">
-			<dw:set-payload><![CDATA[%dw 1.0
+        </dw:transform-message>
+        <object-to-string-transformer doc:name="Object to String" />
+        <http:request config-ref="HTTP_EHR" path="/measurements" method="POST" doc:name="POST measurement">
+            <http:request-builder>
+                <http:header headerName="Content-type" value="application/json" />
+            </http:request-builder>
+            <http:success-status-code-validator values="201" />
+        </http:request>
+        <choice doc:name="Choice">
+            <when expression="#[payload == empty]">
+                <logger level="INFO" doc:name="Logger"/>
+            </when>
+            <otherwise>
+                <json:json-to-object-transformer doc:name="JSON to Object"/>
+                <dw:transform-message doc:name="Return id">
+                    <dw:set-payload><![CDATA[%dw 1.0
+%output application/java
+---
+payload.data.id default 0]]></dw:set-payload>
+                </dw:transform-message>
+            </otherwise>
+        </choice>
+        <logger message="[#[sessionVars.trackingId]] - [#[string:#[context:serviceName]]] - END create new measurment for patient id [#[flowVars.patientId]]" level="INFO" doc:name="End" />
+    </flow>
+    <flow name="post:/patients/{patientId}/prescriptions:application/json:api-config">
+        <logger message="[#[sessionVars.trackingId]] - [#[string:#[context:serviceName]]] - START create new prescription for patient id [#[flowVars.patientId]]" level="INFO" doc:name="Start" />
+        <dw:transform-message doc:name="Set payload">
+            <dw:set-payload><![CDATA[%dw 1.0
 %output application/json
 ---
 {
@@ -263,27 +205,34 @@ payload.data map ((datum , indexOfDatum) -> {
     "date": payload.date default now as :datetime,
     "note": payload.note
 }]]></dw:set-payload>
-		</dw:transform-message>
-		<object-to-string-transformer doc:name="Object to String" />
-		<http:request config-ref="HTTP_EHR" path="/prescriptions"
-			method="POST" doc:name="POST prescription">
-			<http:request-builder>
-				<http:header headerName="Content-type" value="application/json" />
-			</http:request-builder>
-			<http:success-status-code-validator
-				values="201" />
-		</http:request>
-		<logger
-			message="[#[sessionVars.trackingId]] - [#[string:#[context:serviceName]]] - END create new prescription for patient id [#[flowVars.patientId]]"
-			level="INFO" doc:name="End" />
-	</flow>
-	<flow name="post:/patients:application/json:api-config">
-		<logger
-			message="[#[sessionVars.trackingId]] - [#[string:#[context:serviceName]]] - START create new patient"
-			level="INFO" doc:name="Start" />
-		<dw:transform-message doc:name="Set payload"
-			metadata:id="2404e543-20b7-4a53-9f74-44696d116ab6">
-			<dw:set-payload><![CDATA[%dw 1.0
+        </dw:transform-message>
+        <object-to-string-transformer doc:name="Object to String" />
+        <http:request config-ref="HTTP_EHR" path="/prescriptions" method="POST" doc:name="POST prescription">
+            <http:request-builder>
+                <http:header headerName="Content-type" value="application/json" />
+            </http:request-builder>
+            <http:success-status-code-validator values="201" />
+        </http:request>
+        <choice doc:name="Choice">
+            <when expression="#[payload == empty]">
+                <logger level="INFO" doc:name="Logger"/>
+            </when>
+            <otherwise>
+                <json:json-to-object-transformer doc:name="JSON to Object"/>
+                <dw:transform-message doc:name="Return id">
+                    <dw:set-payload><![CDATA[%dw 1.0
+%output application/java
+---
+payload.data.id default 0]]></dw:set-payload>
+                </dw:transform-message>
+            </otherwise>
+        </choice>
+        <logger message="[#[sessionVars.trackingId]] - [#[string:#[context:serviceName]]] - END create new prescription for patient id [#[flowVars.patientId]]" level="INFO" doc:name="End" />
+    </flow>
+    <flow name="post:/patients:application/json:api-config">
+        <logger message="[#[sessionVars.trackingId]] - [#[string:#[context:serviceName]]] - START create new patient" level="INFO" doc:name="Start" />
+        <dw:transform-message doc:name="Set payload" metadata:id="2404e543-20b7-4a53-9f74-44696d116ab6">
+            <dw:set-payload><![CDATA[%dw 1.0
 %output application/json
 ---
 {
@@ -295,52 +244,49 @@ payload.data map ((datum , indexOfDatum) -> {
 	uuid: payload.nhrCode,
 	entry_date: payload.entryDate
 }]]></dw:set-payload>
-		</dw:transform-message>
-		<object-to-string-transformer doc:name="Object to String" />
-		<http:request config-ref="HTTP_EHR" path="/patients"
-			method="POST" doc:name="POST patient">
-			<http:request-builder>
-				<http:header headerName="Content-type" value="application/json" />
-			</http:request-builder>
-			<http:success-status-code-validator
-				values="200,201" />
-		</http:request>
-		<logger
-			message="[#[sessionVars.trackingId]] - [#[string:#[context:serviceName]]] - END create new patient"
-			level="INFO" doc:name="End" />
-	</flow>
-	<flow name="get:/patients/{patientId}/measurements:api-config">
-		<logger
-			message="[#[sessionVars.trackingId]] - [#[string:#[context:serviceName]]] - START search measurements for patient id [#[flowVars.patientId]]"
-			level="INFO" doc:name="Start" />
-		<http:request config-ref="HTTP_EHR" path="/measurements"
-			method="GET" doc:name="GET measurements">
-			<http:success-status-code-validator
-				values="200,400..599" />
-		</http:request>
-		<choice doc:name="Choice">
-			<when expression="#[message.inboundProperties.'http.status' == 404]">
-				<logger
-					message="[#[sessionVars.trackingId]] - [#[string:#[context:serviceName]]] - Not found"
-					level="ERROR" doc:name="Not found" />
-				<flow-ref name="global-resource-not-found-response-sub-flow"
-					doc:name="global-resource-not-found-response-sub-flow" />
-			</when>
-			<when expression="#[message.inboundProperties.'http.status' != 200]">
-				<logger
-					message="[#[sessionVars.trackingId]] - [#[string:#[context:serviceName]]] - Errore"
-					level="ERROR" doc:name="Error" />
-				<flow-ref name="global-bad-request-response-sub-flow"
-					doc:name="global-bad-request-response-sub-flow" />
-			</when>
-			<otherwise>
-				<logger
-					message="[#[sessionVars.trackingId]] - [#[string:#[context:serviceName]]] - OK"
-					level="TRACE" doc:name="Logger" />
-				<dw:transform-message doc:name="Transform Message"
-					metadata:id="b6bf28a3-d9c1-4163-9f75-87f34ac3935a">
-					<dw:input-payload mimeType="application/json" />
-					<dw:set-payload><![CDATA[%dw 1.0
+        </dw:transform-message>
+        <object-to-string-transformer doc:name="Object to String" />
+        <http:request config-ref="HTTP_EHR" path="/patients" method="POST" doc:name="POST patient">
+            <http:request-builder>
+                <http:header headerName="Content-type" value="application/json" />
+            </http:request-builder>
+            <http:success-status-code-validator values="200,201" />
+        </http:request>
+        <choice doc:name="Choice">
+            <when expression="#[payload == empty]">
+                <logger level="INFO" doc:name="Logger"/>
+            </when>
+            <otherwise>
+                <json:json-to-object-transformer doc:name="JSON to Object"/>
+                <dw:transform-message doc:name="Return id">
+                    <dw:set-payload><![CDATA[%dw 1.0
+%output application/java
+---
+payload.data.id default 0]]></dw:set-payload>
+                </dw:transform-message>
+            </otherwise>
+        </choice>
+        <logger message="[#[sessionVars.trackingId]] - [#[string:#[context:serviceName]]] - END create new patient" level="INFO" doc:name="End" />
+    </flow>
+    <flow name="get:/patients/{patientId}/measurements:api-config">
+        <logger message="[#[sessionVars.trackingId]] - [#[string:#[context:serviceName]]] - START search measurements for patient id [#[flowVars.patientId]]" level="INFO" doc:name="Start" />
+        <http:request config-ref="HTTP_EHR" path="/measurements" method="GET" doc:name="GET measurements">
+            <http:success-status-code-validator values="200,400..599" />
+        </http:request>
+        <choice doc:name="Choice">
+            <when expression="#[message.inboundProperties.'http.status' == 404]">
+                <logger message="[#[sessionVars.trackingId]] - [#[string:#[context:serviceName]]] - Not found" level="ERROR" doc:name="Not found" />
+                <flow-ref name="global-resource-not-found-response-sub-flow" doc:name="global-resource-not-found-response-sub-flow" />
+            </when>
+            <when expression="#[message.inboundProperties.'http.status' != 200]">
+                <logger message="[#[sessionVars.trackingId]] - [#[string:#[context:serviceName]]] - Errore" level="ERROR" doc:name="Error" />
+                <flow-ref name="global-bad-request-response-sub-flow" doc:name="global-bad-request-response-sub-flow" />
+            </when>
+            <otherwise>
+                <logger message="[#[sessionVars.trackingId]] - [#[string:#[context:serviceName]]] - OK" level="TRACE" doc:name="Logger" />
+                <dw:transform-message doc:name="Transform Message" metadata:id="b6bf28a3-d9c1-4163-9f75-87f34ac3935a">
+                    <dw:input-payload mimeType="application/json" />
+                    <dw:set-payload><![CDATA[%dw 1.0
 %output application/json
 ---
 payload.data filter ($.attributes.deleted_on == null and datum.relationships.patient.data.id == flowVars.patientId) map ((datum , indexOfDatum) -> {
@@ -351,45 +297,30 @@ payload.data filter ($.attributes.deleted_on == null and datum.relationships.pat
 	unit: datum.attributes.unit,
 	value: datum.attributes.value
 })]]></dw:set-payload>
-				</dw:transform-message>
-			</otherwise>
-		</choice>
-		<logger
-			message="[#[sessionVars.trackingId]] - [#[string:#[context:serviceName]]] - END search measurements for patient id [#[flowVars.patientId]]"
-			level="INFO" doc:name="End" />
-	</flow>
-	<flow name="get:/patients/{patientId}/prescriptions:api-config">
-		<logger
-			message="[#[sessionVars.trackingId]] - [#[string:#[context:serviceName]]] - START search prescriptions for patient id [#[flowVars.patientId]]"
-			level="INFO" doc:name="Start" />
-		<http:request config-ref="HTTP_EHR" path="/prescriptions"
-			method="GET" doc:name="GET prescriptions">
-			<http:success-status-code-validator
-				values="200,400..599" />
-		</http:request>
-		<choice doc:name="Choice">
-			<when expression="#[message.inboundProperties.'http.status' == 404]">
-				<logger
-					message="[#[sessionVars.trackingId]] - [#[string:#[context:serviceName]]] - Not found"
-					level="ERROR" doc:name="Not found" />
-				<flow-ref name="global-resource-not-found-response-sub-flow"
-					doc:name="global-resource-not-found-response-sub-flow" />
-			</when>
-			<when expression="#[message.inboundProperties.'http.status' != 200]">
-				<logger
-					message="[#[sessionVars.trackingId]] - [#[string:#[context:serviceName]]] - Errore"
-					level="ERROR" doc:name="Error" />
-				<flow-ref name="global-bad-request-response-sub-flow"
-					doc:name="global-bad-request-response-sub-flow" />
-			</when>
-			<otherwise>
-				<logger
-					message="[#[sessionVars.trackingId]] - [#[string:#[context:serviceName]]] - OK"
-					level="TRACE" doc:name="Logger" />
-				<dw:transform-message doc:name="Transform Message"
-					metadata:id="2d38e377-c464-46b5-ab5a-1a5f39162990">
-					<dw:input-payload mimeType="application/json" />
-					<dw:set-payload><![CDATA[%dw 1.0
+                </dw:transform-message>
+            </otherwise>
+        </choice>
+        <logger message="[#[sessionVars.trackingId]] - [#[string:#[context:serviceName]]] - END search measurements for patient id [#[flowVars.patientId]]" level="INFO" doc:name="End" />
+    </flow>
+    <flow name="get:/patients/{patientId}/prescriptions:api-config">
+        <logger message="[#[sessionVars.trackingId]] - [#[string:#[context:serviceName]]] - START search prescriptions for patient id [#[flowVars.patientId]]" level="INFO" doc:name="Start" />
+        <http:request config-ref="HTTP_EHR" path="/prescriptions" method="GET" doc:name="GET prescriptions">
+            <http:success-status-code-validator values="200,400..599" />
+        </http:request>
+        <choice doc:name="Choice">
+            <when expression="#[message.inboundProperties.'http.status' == 404]">
+                <logger message="[#[sessionVars.trackingId]] - [#[string:#[context:serviceName]]] - Not found" level="ERROR" doc:name="Not found" />
+                <flow-ref name="global-resource-not-found-response-sub-flow" doc:name="global-resource-not-found-response-sub-flow" />
+            </when>
+            <when expression="#[message.inboundProperties.'http.status' != 200]">
+                <logger message="[#[sessionVars.trackingId]] - [#[string:#[context:serviceName]]] - Errore" level="ERROR" doc:name="Error" />
+                <flow-ref name="global-bad-request-response-sub-flow" doc:name="global-bad-request-response-sub-flow" />
+            </when>
+            <otherwise>
+                <logger message="[#[sessionVars.trackingId]] - [#[string:#[context:serviceName]]] - OK" level="TRACE" doc:name="Logger" />
+                <dw:transform-message doc:name="Transform Message" metadata:id="2d38e377-c464-46b5-ab5a-1a5f39162990">
+                    <dw:input-payload mimeType="application/json" />
+                    <dw:set-payload><![CDATA[%dw 1.0
 %output application/json
 ---
 payload.data filter ($.relationships.patient.data.id == flowVars.patientId) map ((datum , indexOfDatum) -> {
@@ -400,11 +331,46 @@ payload.data filter ($.relationships.patient.data.id == flowVars.patientId) map 
 	note: datum.attributes.note,
 	patientId: datum.relationships.patient.data.id as :number
 })]]></dw:set-payload>
-				</dw:transform-message>
-			</otherwise>
-		</choice>
-		<logger
-			message="[#[sessionVars.trackingId]] - [#[string:#[context:serviceName]]] - END search prescriptions for patient id [#[flowVars.patientId]]"
-			level="INFO" doc:name="End" />
-	</flow>
+                </dw:transform-message>
+            </otherwise>
+        </choice>
+        <logger message="[#[sessionVars.trackingId]] - [#[string:#[context:serviceName]]] - END search prescriptions for patient id [#[flowVars.patientId]]" level="INFO" doc:name="End" />
+    </flow>
+    <flow name="post:/drugs:api-config">
+        <logger message="[#[sessionVars.trackingId]] - [#[string:#[context:serviceName]]] - START create new drugs" level="INFO" doc:name="Start" />
+        <dw:transform-message doc:name="Set payload" metadata:id="ec1021e7-e7ba-4bc9-b1fc-a5bf0def44a6">
+            <dw:set-payload><![CDATA[%dw 1.0
+%output application/json
+---
+{
+	substance_name: trim upper payload.substanceName,
+	product_type: payload.productType,
+	generic_name: trim upper payload.genericName,
+	brand_name: trim upper payload.brandName,
+	dosage_form: payload.dosageForm,
+	manufacter_name: payload.manufacterName default 'n.a.'
+}]]></dw:set-payload>
+        </dw:transform-message>
+        <object-to-string-transformer doc:name="Object to String" />
+        <http:request config-ref="HTTP_EHR" path="/drugs" method="POST" doc:name="POST drugs">
+            <http:request-builder>
+                <http:header headerName="Content-type" value="application/json"/>
+            </http:request-builder>
+            <http:success-status-code-validator values="200,201" />
+        </http:request>
+        <choice doc:name="Choice">
+            <when expression="#[payload == empty]">
+                <logger level="INFO" doc:name="Logger"/>
+            </when>
+            <otherwise>
+                <dw:transform-message doc:name="Return id">
+                    <dw:set-payload><![CDATA[%dw 1.0
+%output application/java
+---
+payload.id default 0]]></dw:set-payload>
+                </dw:transform-message>
+            </otherwise>
+        </choice>
+        <logger message="[#[sessionVars.trackingId]] - [#[string:#[context:serviceName]]] - END create new drugs" level="INFO" doc:name="End" />
+    </flow>
 </mule>
