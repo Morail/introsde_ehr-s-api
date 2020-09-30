@@ -1,0 +1,27 @@
+#%RAML 1.0 DataType
+
+displayName: Alert
+description: Create a new alert
+
+type: object
+properties:
+  patientId:
+    type: number
+    required: true
+    example: 1
+    description: |
+      Unique identifier for the record in the GP's EHR database
+  level:
+    type: string
+    required: false
+    default: INFO
+    enum: ['INFO','WARN','ALARM']
+    example: ALARM
+    description: |
+      Warning level
+  message:
+    type: string
+    required: false
+    example: "Warning! Abnormale blood pressure"
+    description: |
+      Warning message

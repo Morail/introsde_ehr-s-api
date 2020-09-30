@@ -373,4 +373,39 @@ payload.id default 0]]></dw:set-payload>
         </choice>
         <logger message="[#[sessionVars.trackingId]] - [#[string:#[context:serviceName]]] - END create new drugs" level="INFO" doc:name="End" />
     </flow>
+    <flow name="post:/alerts:application/json:api-config">
+        <logger message="[#[sessionVars.trackingId]] - [#[string:#[context:serviceName]]] - START create new alert" level="INFO" doc:name="Start" />
+        <dw:transform-message doc:name="Set payload">
+            <dw:set-payload><![CDATA[%dw 1.0
+%output application/json
+---
+{
+    "patient": payload.patientId,
+    "level": payload.level,
+    "message": payload.message
+}]]></dw:set-payload>
+        </dw:transform-message>
+        <object-to-string-transformer doc:name="Object to String" />
+        <http:request config-ref="HTTP_EHR" path="/alerts" method="POST" doc:name="POST alert">
+            <http:request-builder>
+                <http:header headerName="Content-type" value="application/json" />
+            </http:request-builder>
+            <http:success-status-code-validator values="201" />
+        </http:request>
+        <choice doc:name="Choice">
+            <when expression="#[payload == empty]">
+                <logger level="INFO" doc:name="Logger"/>
+            </when>
+            <otherwise>
+                <json:json-to-object-transformer doc:name="JSON to Object"/>
+                <dw:transform-message doc:name="Return id">
+                    <dw:set-payload><![CDATA[%dw 1.0
+%output application/java
+---
+payload.data.id default 0]]></dw:set-payload>
+                </dw:transform-message>
+            </otherwise>
+        </choice>
+        <logger message="[#[sessionVars.trackingId]] - [#[string:#[context:serviceName]]] - END create new alert" level="INFO" doc:name="End" />
+    </flow>
 </mule>

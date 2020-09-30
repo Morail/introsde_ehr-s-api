@@ -8,6 +8,27 @@ uses:
   dt: libraries/data_types_library.raml
   tr: libraries/traits_library.raml
 
+/alerts:
+  is: [tr.common_error_traits]
+  displayName: Drugs
+  description: |
+    Alerts to the attention of the General Practitioner
+  post:
+    description: |
+      Create a new alerty
+    body:
+      application/json:
+        type: dt.post_alert
+        example: !include example/post_alert.json
+    responses:
+      201:
+        description: ok
+        body:
+          type: number
+          example: 124
+          description: |
+            ID returned
+
 /drugs:
   is: [tr.common_error_traits]
   displayName: Drugs
